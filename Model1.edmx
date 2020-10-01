@@ -1,0 +1,500 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Test.dbo.Address' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="Customer ID" />
+          </Key>
+          <Property Name="Address Line 1" Type="varchar" MaxLength="50" />
+          <Property Name="Address Line 2" Type="varchar" MaxLength="50" />
+          <Property Name="Town" Type="varchar" MaxLength="50" />
+          <Property Name="State" Type="varchar" MaxLength="50" />
+          <Property Name="Zip Code" Type="varchar" MaxLength="50" />
+          <Property Name="Customer ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
+          <Property Name="Contact" Type="nchar" MaxLength="10" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Test.dbo.InfraOrders' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="InfraOrders">
+          <Key>
+            <PropertyRef Name="Order ID" />
+          </Key>
+          <Property Name="Order ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Customer ID" Type="int" />
+          <Property Name="Update Date" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Test.dbo.QueriesTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="QueriesTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusID" Type="int" />
+          <Property Name="TypeID" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+          <Property Name="Query" Type="varchar(max)" />
+          <Property Name="Parameters" Type="xml" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Test.ERP.Orders' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Order ID" />
+          </Key>
+          <Property Name="Update Date" Type="datetime" />
+          <Property Name="Customer ID" Type="int" />
+          <Property Name="Order ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Test.dbo.vw_allData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_allData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
+          <Property Name="Contact" Type="nchar" MaxLength="10" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Address Line 1" Type="varchar" MaxLength="50" />
+          <Property Name="Address Line 2" Type="varchar" MaxLength="50" />
+          <Property Name="Town" Type="varchar" MaxLength="50" />
+          <Property Name="State" Type="varchar" MaxLength="50" />
+          <Property Name="Zip Code" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Address_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="Customer ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="locateAllOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Order ID" Type="int" Nullable="false" />
+                <Property Name="Item Code" Type="varchar" MaxLength="50" />
+                <Property Name="Qty Ordered" Type="decimal" Precision="3" Scale="0" />
+                <Property Name="Unit Price" Type="decimal" Precision="10" Scale="2" />
+                <Property Name="Sales Price" Type="decimal" Precision="10" Scale="2" />
+                <Property Name="Customer UOM" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="sp_changeAddress" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ad1" Type="varchar" Mode="In" />
+          <Parameter Name="ad2" Type="varchar" Mode="In" />
+          <Parameter Name="town" Type="varchar" Mode="In" />
+          <Parameter Name="state" Type="varchar" Mode="In" />
+          <Parameter Name="zip" Type="varchar" Mode="In" />
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_changeCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="code" Type="varchar" Mode="In" />
+          <Parameter Name="contact" Type="varchar" Mode="In" />
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_insertLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="level" Type="int" Mode="In" />
+          <Parameter Name="msg" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_table_view" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_viewAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="TestModelStoreContainer">
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Address" EntityType="Self.Address" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Address].[Address Line 1] AS [Address Line 1], 
+    [Address].[Address Line 2] AS [Address Line 2], 
+    [Address].[Town] AS [Town], 
+    [Address].[State] AS [State], 
+    [Address].[Zip Code] AS [Zip Code], 
+    [Address].[Customer ID] AS [Customer ID]
+    FROM [dbo].[Address] AS [Address]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="InfraOrders" EntityType="Self.InfraOrders" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [InfraOrders].[Order ID] AS [Order ID], 
+    [InfraOrders].[Customer ID] AS [Customer ID], 
+    [InfraOrders].[Update Date] AS [Update Date]
+    FROM [dbo].[InfraOrders] AS [InfraOrders]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="QueriesTable" EntityType="Self.QueriesTable" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [QueriesTable].[ID] AS [ID], 
+    [QueriesTable].[StatusID] AS [StatusID], 
+    [QueriesTable].[TypeID] AS [TypeID], 
+    [QueriesTable].[Name] AS [Name], 
+    [QueriesTable].[Description] AS [Description], 
+    [QueriesTable].[Query] AS [Query], 
+    [QueriesTable].[Parameters] AS [Parameters], 
+    [QueriesTable].[CreateDate] AS [CreateDate], 
+    [QueriesTable].[UpdateDate] AS [UpdateDate]
+    FROM [dbo].[QueriesTable] AS [QueriesTable]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Orders" EntityType="Self.Orders" store:Type="Tables" store:Schema="ERP">
+            <DefiningQuery>SELECT 
+    [Orders].[Update Date] AS [Update Date], 
+    [Orders].[Customer ID] AS [Customer ID], 
+    [Orders].[Order ID] AS [Order ID]
+    FROM [ERP].[Orders] AS [Orders]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_allData" EntityType="Self.vw_allData" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_allData].[Name] AS [Name], 
+    [vw_allData].[Code] AS [Code], 
+    [vw_allData].[Contact] AS [Contact], 
+    [vw_allData].[ID] AS [ID], 
+    [vw_allData].[Address Line 1] AS [Address Line 1], 
+    [vw_allData].[Address Line 2] AS [Address Line 2], 
+    [vw_allData].[Town] AS [Town], 
+    [vw_allData].[State] AS [State], 
+    [vw_allData].[Zip Code] AS [Zip Code]
+    FROM [dbo].[vw_allData] AS [vw_allData]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Address_Customer" Association="Self.FK_Address_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="locateAllOrders_Result">
+          <Property Name="Order_ID" Type="Int32" Nullable="false" />
+          <Property Name="Item_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Qty_Ordered" Type="Decimal" Precision="3" Scale="0" />
+          <Property Name="Unit_Price" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Sales_Price" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Customer_UOM" Type="Int32" />
+        </ComplexType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_Address_Customer" FromRole="Customer" ToRole="Address" />
+        </EntityType>
+        <EntityType Name="InfraOrder">
+          <Key>
+            <PropertyRef Name="Order_ID" />
+          </Key>
+          <Property Name="Order_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Customer_ID" Type="Int32" />
+          <Property Name="Update_Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="InfraOrders1" Relationship="Self.FK_InfraOrders_InfraOrders" FromRole="InfraOrders" ToRole="InfraOrders1" />
+          <NavigationProperty Name="InfraOrder1" Relationship="Self.FK_InfraOrders_InfraOrders" FromRole="InfraOrders1" ToRole="InfraOrders" />
+        </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="Customer_ID" />
+          </Key>
+          <Property Name="Address_Line_1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address_Line_2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Town" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Zip_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Customer_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Address_Customer" FromRole="Address" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="QueriesTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusID" Type="Int32" />
+          <Property Name="TypeID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Query" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Parameters" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Order_ID" />
+          </Key>
+          <Property Name="Update_Date" Type="DateTime" Precision="3" />
+          <Property Name="Customer_ID" Type="Int32" />
+          <Property Name="Order_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="vw_allData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Address_Line_1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address_Line_2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Town" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Zip_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Address_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="Customer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InfraOrders_InfraOrders">
+          <End Role="InfraOrders" Type="Self.InfraOrder" Multiplicity="1" />
+          <End Role="InfraOrders1" Type="Self.InfraOrder" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="InfraOrders">
+              <PropertyRef Name="Order_ID" />
+            </Principal>
+            <Dependent Role="InfraOrders1">
+              <PropertyRef Name="Order_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="InfraOrders" EntityType="Self.InfraOrder" />
+          <EntitySet Name="Addresses" EntityType="Self.Address" />
+          <EntitySet Name="QueriesTables" EntityType="Self.QueriesTable" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="vw_allData" EntityType="Self.vw_allData" />
+          <AssociationSet Name="FK_Address_Customer" Association="Self.FK_Address_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InfraOrders_InfraOrders" Association="Self.FK_InfraOrders_InfraOrders">
+            <End Role="InfraOrders" EntitySet="InfraOrders" />
+            <End Role="InfraOrders1" EntitySet="InfraOrders" />
+          </AssociationSet>
+          <FunctionImport Name="locateAllOrders" IsComposable="true" ReturnType="Collection(TestModel.locateAllOrders_Result)" />
+          <FunctionImport Name="sp_changeAddress" ReturnType="Collection(TestModel.sp_changeAddress_Result)">
+            <Parameter Name="ad1" Mode="In" Type="String" />
+            <Parameter Name="ad2" Mode="In" Type="String" />
+            <Parameter Name="town" Mode="In" Type="String" />
+            <Parameter Name="state" Mode="In" Type="String" />
+            <Parameter Name="zip" Mode="In" Type="String" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_changeCustomer" ReturnType="Collection(TestModel.sp_changeCustomer_Result)">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="code" Mode="In" Type="String" />
+            <Parameter Name="contact" Mode="In" Type="String" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insertLog" ReturnType="Collection(TestModel.sp_insertLog_Result)">
+            <Parameter Name="level" Mode="In" Type="Int32" />
+            <Parameter Name="msg" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_table_view" ReturnType="Collection(TestModel.sp_table_view_Result)">
+          <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_viewAll" />
+        </EntityContainer>
+        <ComplexType Name="sp_changeAddress_Result">
+          <Property Type="DateTime" Name="Timestamp" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Message_Level__0_4_" Nullable="true" />
+          <Property Type="String" Name="Message_Text" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_changeCustomer_Result">
+          <Property Type="DateTime" Name="Timestamp" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Message_Level__0_4_" Nullable="true" />
+          <Property Type="String" Name="Message_Text" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_insertLog_Result">
+          <Property Type="DateTime" Name="Timestamp" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Message_Level__0_4_" Nullable="true" />
+          <Property Type="String" Name="Message_Text" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_table_view_Result">
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Contact" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestModelStoreContainer" CdmEntityContainer="TestEntities">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="TestModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InfraOrders">
+            <EntityTypeMapping TypeName="TestModel.InfraOrder">
+              <MappingFragment StoreEntitySet="InfraOrders">
+                <ScalarProperty Name="Order_ID" ColumnName="Order ID" />
+                <ScalarProperty Name="Customer_ID" ColumnName="Customer ID" />
+                <ScalarProperty Name="Update_Date" ColumnName="Update Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="TestModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="Address_Line_1" ColumnName="Address Line 1" />
+                <ScalarProperty Name="Address_Line_2" ColumnName="Address Line 2" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip_Code" ColumnName="Zip Code" />
+                <ScalarProperty Name="Customer_ID" ColumnName="Customer ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QueriesTables">
+            <EntityTypeMapping TypeName="TestModel.QueriesTable">
+              <MappingFragment StoreEntitySet="QueriesTable">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Query" ColumnName="Query" />
+                <ScalarProperty Name="Parameters" ColumnName="Parameters" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="TestModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Update_Date" ColumnName="Update Date" />
+                <ScalarProperty Name="Customer_ID" ColumnName="Customer ID" />
+                <ScalarProperty Name="Order_ID" ColumnName="Order ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_allData">
+            <EntityTypeMapping TypeName="TestModel.vw_allData">
+              <MappingFragment StoreEntitySet="vw_allData">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Address_Line_1" ColumnName="Address Line 1" />
+                <ScalarProperty Name="Address_Line_2" ColumnName="Address Line 2" />
+                <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip_Code" ColumnName="Zip Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionName="TestModel.Store.locateAllOrders" FunctionImportName="locateAllOrders">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TestModel.locateAllOrders_Result">
+                <ScalarProperty Name="Order_ID" ColumnName="Order ID" />
+                <ScalarProperty Name="Item_Code" ColumnName="Item Code" />
+                <ScalarProperty Name="Qty_Ordered" ColumnName="Qty Ordered" />
+                <ScalarProperty Name="Unit_Price" ColumnName="Unit Price" />
+                <ScalarProperty Name="Sales_Price" ColumnName="Sales Price" />
+                <ScalarProperty Name="Customer_UOM" ColumnName="Customer UOM" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_changeAddress" FunctionName="TestModel.Store.sp_changeAddress">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TestModel.sp_changeAddress_Result">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Message_Level__0_4_" ColumnName="Message Level (0-4)" />
+                <ScalarProperty Name="Message_Text" ColumnName="Message Text" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_changeCustomer" FunctionName="TestModel.Store.sp_changeCustomer">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TestModel.sp_changeCustomer_Result">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Message_Level__0_4_" ColumnName="Message Level (0-4)" />
+                <ScalarProperty Name="Message_Text" ColumnName="Message Text" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_insertLog" FunctionName="TestModel.Store.sp_insertLog">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TestModel.sp_insertLog_Result">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Message_Level__0_4_" ColumnName="Message Level (0-4)" />
+                <ScalarProperty Name="Message_Text" ColumnName="Message Text" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_table_view" FunctionName="TestModel.Store.sp_table_view">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TestModel.sp_table_view_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_viewAll" FunctionName="TestModel.Store.sp_viewAll" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

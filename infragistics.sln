@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "infragistics", "infragistics.csproj", "{53B696B4-7630-4072-8855-3E73594D2C4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53B696B4-7630-4072-8855-3E73594D2C4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53B696B4-7630-4072-8855-3E73594D2C4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53B696B4-7630-4072-8855-3E73594D2C4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53B696B4-7630-4072-8855-3E73594D2C4E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {29BEBAA5-11E6-4D90-B8BB-072586712DF2}
+	EndGlobalSection
+EndGlobal
