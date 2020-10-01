@@ -71,7 +71,7 @@ o	Description of that order line
 o	Amount of item per container
 
 
--	# of Cont
+-	\# of Cont
 
 o	Number of containers ordered
 
