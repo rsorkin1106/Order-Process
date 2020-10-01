@@ -97,4 +97,3 @@ Select the order you wish to edit, then press "Edit." The form would then switch
 ## Delete Order
 
 Once an order is selected on the starting screen, pressing the “Delete order” button will remove that order from the database. 
-Delete Order.
